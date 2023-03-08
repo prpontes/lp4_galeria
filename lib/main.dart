@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'imagem.dart';
-import 'dart:math';
 
 void main(){
   runApp(MaterialApp(
