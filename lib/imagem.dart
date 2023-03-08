@@ -1,4 +1,3 @@
-
 class Imagem{
   String? _url;
   String? _descricao;
