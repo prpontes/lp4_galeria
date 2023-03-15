@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'banco.dart';
 import 'imagem.dart';
-
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 void main(){
   runApp(MaterialApp(
@@ -20,6 +22,8 @@ class HomeStado extends StatefulWidget {
 }
 
 class _HomeStadoState extends State<HomeStado> {
+
+  Banco? bd;
   int cont = 0;
 
   TextEditingController _controllerTitulo = TextEditingController();
@@ -28,11 +32,26 @@ class _HomeStadoState extends State<HomeStado> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  List<Imagem> imagem = [
-    Imagem("https://images.pexels.com/photos/1006121/pexels-photo-1006121.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "imagem 1"),
-    Imagem("https://images.pexels.com/photos/1486974/pexels-photo-1486974.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "imagem 2"),
-    Imagem("https://images.pexels.com/photos/1032653/pexels-photo-1032653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "imagem 3"),
-  ];
+  List<Imagem> imagem = [];
+
+  @override
+  void initState(){
+    // TODO: implement initState
+    super.initState();
+    iniBanco();
+  }
+
+  Future<void> iniBanco() async {
+    bd = Banco();
+    await bd!.CriarBanco();
+    await bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1006121/pexels-photo-1006121.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 1"));
+    await bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1486974/pexels-photo-1486974.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 2"));
+    await bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1032653/pexels-photo-1032653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 3"));
+    imagem = await bd!.obterImagens();
+    setState((){
+      imagem;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +71,12 @@ class _HomeStadoState extends State<HomeStado> {
                 Column(
                   children: [
                     Container(
-                        child: Image.network(imagem[cont].url, height: 450,),
+                        child: imagem.isEmpty ? Text("carregando...") : Image.network(imagem[cont].url, height: 450,),
                         decoration: BoxDecoration(
                           border: Border.all(width: 1, color: Colors.black),
                       ),
                     ),
-                    Text(imagem[cont].descricao)
+                    imagem.isEmpty ? Text("carregando...") :Text(imagem[cont].descricao)
                   ],
                 ),
                 Row(
@@ -163,8 +182,8 @@ class _HomeStadoState extends State<HomeStado> {
                             if(_formKey.currentState!.validate()){
                               imagem.add(
                                   Imagem(
-                                      _controllerUrl.text,
-                                      _controllerDescricao.text)
+                                      url: _controllerUrl.text,
+                                      descricao: _controllerDescricao.text)
                               );
                               _controllerDescricao.clear();
                               _controllerUrl.clear();
