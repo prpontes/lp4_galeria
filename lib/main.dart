@@ -60,7 +60,6 @@ class _HomeStadoState extends State<HomeStado> {
 
   @override
   Widget build(BuildContext context) {
-    carregarImagens();
 
     return Scaffold(
       appBar: AppBar(
@@ -80,13 +79,17 @@ class _HomeStadoState extends State<HomeStado> {
                     Container(
                         child: imagem.isEmpty ? Text("carregando...") :
                         GestureDetector(
-                            onTap: (){
-                              Navigator.push(
+                            onTap: () async {
+                              final id = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DetalheImagem()
+                                      builder: (context) => DetalheImagem(img: imagem[cont])
                                   )
                               );
+                              if(id != null){
+                                bd!.deletaImagem(id);
+                                carregarImagens();
+                              }
                             },
                             child: Image.network(imagem[cont].url, height: 450,)
                         ),

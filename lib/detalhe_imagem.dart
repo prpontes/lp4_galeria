@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'imagem.dart';
+
 class DetalheImagem extends StatefulWidget {
-  const DetalheImagem({Key? key}) : super(key: key);
+
+  Imagem? img;
+  DetalheImagem({Key? key, this.img}) : super(key: key);
 
   @override
   State<DetalheImagem> createState() => _DetalheImagemState();
@@ -19,7 +23,9 @@ class _DetalheImagemState extends State<DetalheImagem> {
               icon: Icon(Icons.edit)
           ),
           IconButton(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.pop(context, widget.img!.id);
+              },
               icon: Icon(Icons.delete)
           ),
         ],
