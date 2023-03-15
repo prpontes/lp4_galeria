@@ -11,6 +11,8 @@ class Imagem{
     _titulo = titulo;
   }
 
+  int get id => _id!;
+
   String get url => _url!;
   set url(String url){
     _url = url;

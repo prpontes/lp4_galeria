@@ -3,6 +3,7 @@ import 'banco.dart';
 import 'imagem.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'detalhe_imagem.dart';
 
 void main(){
   runApp(MaterialApp(
@@ -47,6 +48,10 @@ class _HomeStadoState extends State<HomeStado> {
     await bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1006121/pexels-photo-1006121.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 1"));
     await bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1486974/pexels-photo-1486974.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 2"));
     await bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1032653/pexels-photo-1032653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 3"));
+    await carregarImagens();
+  }
+
+  Future<void> carregarImagens() async{
     imagem = await bd!.obterImagens();
     setState((){
       imagem;
@@ -55,6 +60,8 @@ class _HomeStadoState extends State<HomeStado> {
 
   @override
   Widget build(BuildContext context) {
+    carregarImagens();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Galeria de imagens"),
@@ -71,7 +78,18 @@ class _HomeStadoState extends State<HomeStado> {
                 Column(
                   children: [
                     Container(
-                        child: imagem.isEmpty ? Text("carregando...") : Image.network(imagem[cont].url, height: 450,),
+                        child: imagem.isEmpty ? Text("carregando...") :
+                        GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetalheImagem()
+                                  )
+                              );
+                            },
+                            child: Image.network(imagem[cont].url, height: 450,)
+                        ),
                         decoration: BoxDecoration(
                           border: Border.all(width: 1, color: Colors.black),
                       ),

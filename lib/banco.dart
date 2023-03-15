@@ -47,4 +47,24 @@ class Banco{
     );
   }
 
+  Future<void> atualizarImagem(Imagem img) async{
+    final db = await database;
+
+    await db!.update(
+        'imagem',
+        img.toMap(),
+        where: 'id = ?',
+        whereArgs: [img.id],
+    );
+  }
+
+  Future<void> deletaImagem(int id) async{
+    final db = await database;
+
+    await db!.delete(
+        'imagem',
+        where: 'id = ?',
+        whereArgs: [id],
+    );
+  }
 }
