@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'banco.dart';
 import 'imagem.dart';
 
 class DetalheImagem extends StatefulWidget {
 
   Imagem? img;
-  DetalheImagem({Key? key, this.img}) : super(key: key);
+  Banco? bd;
+  DetalheImagem({Key? key, this.img, this.bd}) : super(key: key);
 
   @override
   State<DetalheImagem> createState() => _DetalheImagemState();
@@ -19,7 +21,16 @@ class _DetalheImagemState extends State<DetalheImagem> {
         title: Text("Detalhe imagem"),
         actions: [
           IconButton(
-              onPressed: (){},
+              onPressed: (){
+                showDialog(
+                    context: context,
+                    builder: (contexto){
+                      return AlertDialog(
+
+                      );
+                    }
+                );
+              },
               icon: Icon(Icons.edit)
           ),
           IconButton(

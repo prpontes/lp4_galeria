@@ -67,75 +67,72 @@ class _HomeStadoState extends State<HomeStado> {
         backgroundColor: Colors.green,
       ),
       body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Container(
-                        child: imagem.isEmpty ? Text("carregando...") :
-                        GestureDetector(
-                            onTap: () async {
-                              final id = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetalheImagem(img: imagem[cont])
-                                  )
-                              );
-                              if(id != null){
-                                bd!.deletaImagem(id);
-                                carregarImagens();
-                              }
-                            },
-                            child: Image.network(imagem[cont].url, height: 450,)
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: Colors.black),
-                      ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.black),
                     ),
-                    imagem.isEmpty ? Text("carregando...") :Text(imagem[cont].descricao)
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: (){
-                        setState((){
-                          if(cont > 0) {
-                            cont = cont - 1;
+                    child: imagem.isEmpty ? Text("carregando...") :
+                    GestureDetector(
+                        onTap: () async {
+                          final id = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetalheImagem(img: imagem[cont], bd: bd,)
+                              )
+                          );
+                          if(id != null){
+                            bd!.deletaImagem(id);
+                            carregarImagens();
                           }
-                        }
-                        );
-                      },
-                      child: Text("<<"),
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: Size(120, 30),
-                      ),
+                        },
+                        child: Image.network(imagem[cont].url, height: 400,)
                     ),
-                    SizedBox(width: 10,),
-                    ElevatedButton(
-                      onPressed: (){
-                        setState((){
-                          if(cont<imagem.length-1) {
-                            cont = cont + 1;
-                          }
+                  ),
+                  imagem.isEmpty ? Text("carregando...") :Text(imagem[cont].descricao)
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: (){
+                      setState((){
+                        if(cont > 0) {
+                          cont = cont - 1;
                         }
-                        );
-                      },
-                      child: Text(">>"),
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: Size(120, 30),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
+                      }
+                      );
+                    },
+                    child: Text("<<"),
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size(120, 30),
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  ElevatedButton(
+                    onPressed: (){
+                      setState((){
+                        if(cont<imagem.length-1) {
+                          cont = cont + 1;
+                        }
+                      }
+                      );
+                    },
+                    child: Text(">>"),
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: Size(120, 30),
+                    ),
+                  )
+                ],
+              )
+            ],
           ),
         ),
       ),
