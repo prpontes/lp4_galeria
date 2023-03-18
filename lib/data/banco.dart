@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-import 'imagem.dart';
+import '../model/imagem.dart';
 
 class Banco{
 

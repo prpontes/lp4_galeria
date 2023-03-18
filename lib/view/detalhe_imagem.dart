@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'banco.dart';
-import 'imagem.dart';
+import '../data/banco.dart';
+import '../model/imagem.dart';
 
 class DetalheImagem extends StatefulWidget {
 

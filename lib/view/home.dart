@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:teste/tela_grid_imagens.dart';
-import 'package:teste/tela_imagem.dart';
+import 'tela_grid_imagens.dart';
+import 'tela_imagem.dart';
 import 'tela_listagem_imagens.dart';
 
 class HomeStado extends StatefulWidget {
