@@ -21,13 +21,115 @@ class _DetalheImagemState extends State<DetalheImagem> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  void carregarImagem() async{
 
-  @override
-  Widget build(BuildContext context) {
+    widget.img = await widget.bd!.obterImagem(widget.img!.id);
 
+    setState(() {
+      widget.img;
+    });
+  }
+
+  void formulario(){
     _controllerTitulo.text = widget.img!.titulo;
     _controllerUrl.text = widget.img!.url;
     _controllerDescricao.text = widget.img!.descricao;
+
+    showDialog(
+        context: context,
+        builder: (contexto){
+          return AlertDialog(
+            title: Text("Editar imagem"),
+            content:  Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                          labelText: "Título",
+                          hintText: "Digite um título"
+                      ),
+                      controller: _controllerTitulo,
+                      validator: (campoTitulo){
+                        if(campoTitulo == null || campoTitulo.isEmpty) {
+                          return "Preencha o título";
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.url,
+                      decoration: const InputDecoration(
+                          labelText: "URL",
+                          hintText: "Digite a url"
+                      ),
+                      controller: _controllerUrl,
+                      validator: (campoUrl){
+                        if(campoUrl == null || campoUrl.isEmpty) {
+                          return "Preencha a url";
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                          labelText: "Descrição",
+                          hintText: "Digite uma descrição"
+                      ),
+                      controller: _controllerDescricao,
+                      validator: (campoDescricao){
+                        if(campoDescricao == null || campoDescricao.isEmpty) {
+                          return "Preencha a descrição";
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                  onPressed: () async {
+                    if(_formKey.currentState!.validate()){
+                      await widget.bd!.atualizarImagem(
+                          Imagem(
+                              id: widget.img!.id,
+                              url: _controllerUrl.text,
+                              descricao: _controllerDescricao.text,
+                              titulo: _controllerTitulo.text
+                          )
+                      );
+                      widget.img = await widget.bd!.obterImagem(widget.img!.id);
+                      _controllerDescricao.clear();
+                      _controllerUrl.clear();
+                      _controllerTitulo.clear();
+                      Navigator.pop(context);
+
+                      setState(() {
+                        widget.img;
+                      });
+                    }
+                  },
+                  child: Text("Editar")
+              ),
+              ElevatedButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancelar")
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
@@ -35,91 +137,7 @@ class _DetalheImagemState extends State<DetalheImagem> {
         actions: [
           IconButton(
               onPressed: (){
-                showDialog(
-                    context: context,
-                    builder: (contexto){
-                      return AlertDialog(
-                        title: Text("Editar imagem"),
-                        content:  Form(
-                          key: _formKey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  decoration: const InputDecoration(
-                                      labelText: "Título",
-                                      hintText: "Digite um título"
-                                  ),
-                                  controller: _controllerTitulo,
-                                  validator: (campoTitulo){
-                                    if(campoTitulo == null || campoTitulo.isEmpty) {
-                                      return "Preencha o título";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                TextFormField(
-                                  keyboardType: TextInputType.url,
-                                  decoration: const InputDecoration(
-                                      labelText: "URL",
-                                      hintText: "Digite a url"
-                                  ),
-                                  controller: _controllerUrl,
-                                  validator: (campoUrl){
-                                    if(campoUrl == null || campoUrl.isEmpty) {
-                                      return "Preencha a url";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  decoration: const InputDecoration(
-                                      labelText: "Descrição",
-                                      hintText: "Digite uma descrição"
-                                  ),
-                                  controller: _controllerDescricao,
-                                  validator: (campoDescricao){
-                                    if(campoDescricao == null || campoDescricao.isEmpty) {
-                                      return "Preencha a descrição";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: (){
-                                if(_formKey.currentState!.validate()){
-                                  widget.bd!.atualizarImagem(
-                                      Imagem(
-                                          url: _controllerUrl.text,
-                                          descricao: _controllerDescricao.text,
-                                          titulo: _controllerTitulo.text
-                                      )
-                                  );
-                                  _controllerDescricao.clear();
-                                  _controllerUrl.clear();
-                                  _controllerTitulo.clear();
-                                  Navigator.pop(context);
-                                }
-                              },
-                              child: Text("Editar")
-                          ),
-                          ElevatedButton(
-                              onPressed: (){
-                                Navigator.pop(context);
-                              },
-                              child: Text("Cancelar")
-                          )
-                        ],
-                      );
-                    }
-                );
+                formulario();
               },
               icon: Icon(Icons.edit)
           ),

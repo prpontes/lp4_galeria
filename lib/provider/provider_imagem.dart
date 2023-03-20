@@ -3,7 +3,7 @@ import '../model/imagem.dart';
 
 class ImagemModel extends ChangeNotifier
 {
-  final List<Imagem> _imagem = [];
+  List<Imagem> _imagem = [];
 
   set imagem(Imagem img){
     _imagem.add(img);
@@ -11,5 +11,10 @@ class ImagemModel extends ChangeNotifier
     notifyListeners();
   }
 
+  set listaImagem(List<Imagem> img){
+    _imagem = img;
+
+    notifyListeners();
+  }
   List<Imagem> get listaImagem => _imagem;
 }

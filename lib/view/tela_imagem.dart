@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../data/banco.dart';
 import '../model/imagem.dart';
+import '../provider/provider_imagem.dart';
 import 'detalhe_imagem.dart';
+import 'package:provider/provider.dart';
 
 class TelaImagem extends StatefulWidget {
   const TelaImagem({Key? key}) : super(key: key);
@@ -41,6 +43,7 @@ class _TelaImagemState extends State<TelaImagem> {
 
   Future<void> carregarImagens() async{
     imagem = await bd!.obterImagens();
+
     setState((){
       imagem;
     });
@@ -48,6 +51,7 @@ class _TelaImagemState extends State<TelaImagem> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(

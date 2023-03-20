@@ -67,4 +67,21 @@ class Banco{
         whereArgs: [id],
     );
   }
+
+  Future<Imagem> obterImagem(int id) async{
+    final db = await database;
+
+    final List<Map<String, dynamic>> maps = await db!.query('imagem', where: "id = ?", whereArgs: [id]);
+
+    Imagem? img;
+    if(maps.isNotEmpty) {
+      img = Imagem(
+          id: maps.first['id'],
+          url: maps.first['url'],
+          titulo: maps.first['titulo'],
+          descricao: maps.first['descricao']
+      );
+    }
+    return img!;
+  }
 }
