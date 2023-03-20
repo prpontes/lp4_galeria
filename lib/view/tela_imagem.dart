@@ -35,9 +35,6 @@ class _TelaImagemState extends State<TelaImagem> {
   }
 
   Future<void> iniBanco() async {
-    await widget.bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1006121/pexels-photo-1006121.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 1", titulo: "imagem 1"));
-    await widget.bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1486974/pexels-photo-1486974.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 2", titulo: "imagem 2"));
-    await widget.bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1032653/pexels-photo-1032653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 3", titulo: "imagem 3"));
     await carregarImagens();
   }
 
@@ -189,9 +186,9 @@ class _TelaImagemState extends State<TelaImagem> {
                   ),
                   actions: [
                     ElevatedButton(
-                        onPressed: (){
+                        onPressed: () async {
                           if(_formKey.currentState!.validate()){
-                            imagem.add(
+                            await widget.bd!.inserirImagem(
                                 Imagem(
                                     url: _controllerUrl.text,
                                     descricao: _controllerDescricao.text,
@@ -202,6 +199,7 @@ class _TelaImagemState extends State<TelaImagem> {
                             _controllerUrl.clear();
                             _controllerTitulo.clear();
                             Navigator.pop(context);
+                            carregarImagens();
                           }
                         },
                         child: Text("Salvar")
