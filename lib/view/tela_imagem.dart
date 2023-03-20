@@ -6,7 +6,9 @@ import 'detalhe_imagem.dart';
 import 'package:provider/provider.dart';
 
 class TelaImagem extends StatefulWidget {
-  const TelaImagem({Key? key}) : super(key: key);
+  Banco? bd;
+
+  TelaImagem({Key? key, this.bd}) : super(key: key);
 
   @override
   State<TelaImagem> createState() => _TelaImagemState();
@@ -14,7 +16,7 @@ class TelaImagem extends StatefulWidget {
 
 class _TelaImagemState extends State<TelaImagem> {
 
-  Banco? bd;
+
   int cont = 0;
   int barraNavegacaoIndex = 0;
 
@@ -33,16 +35,14 @@ class _TelaImagemState extends State<TelaImagem> {
   }
 
   Future<void> iniBanco() async {
-    bd = Banco();
-    await bd!.CriarBanco();
-    await bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1006121/pexels-photo-1006121.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 1", titulo: "imagem 1"));
-    await bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1486974/pexels-photo-1486974.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 2", titulo: "imagem 2"));
-    await bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1032653/pexels-photo-1032653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 3", titulo: "imagem 3"));
+    await widget.bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1006121/pexels-photo-1006121.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 1", titulo: "imagem 1"));
+    await widget.bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1486974/pexels-photo-1486974.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 2", titulo: "imagem 2"));
+    await widget.bd!.inserirImagem(Imagem(url: "https://images.pexels.com/photos/1032653/pexels-photo-1032653.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", descricao: "imagem 3", titulo: "imagem 3"));
     await carregarImagens();
   }
 
   Future<void> carregarImagens() async{
-    imagem = await bd!.obterImagens();
+    imagem = await widget.bd!.obterImagens();
 
     carregarProvider();
     setState((){
@@ -110,11 +110,11 @@ class _TelaImagemState extends State<TelaImagem> {
                           final id = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DetalheImagem(img: imagem[cont], bd: bd,)
+                                  builder: (context) => DetalheImagem(img: imagem[cont], bd: widget.bd,)
                               )
                           );
                           if(id != null){
-                            bd!.deletaImagem(id);
+                            widget.bd!.deletaImagem(id);
                           }
                           carregarImagens();
                         },

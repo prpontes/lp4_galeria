@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../data/banco.dart';
 import 'tela_grid_imagens.dart';
 import 'tela_imagem.dart';
 import 'tela_listagem_imagens.dart';
 
 class HomeStado extends StatefulWidget {
-  const HomeStado({Key? key}) : super(key: key);
+  Banco? bd;
+  HomeStado({Key? key, this.bd}) : super(key: key);
 
   @override
   State<HomeStado> createState() => _HomeStadoState();
@@ -13,14 +15,18 @@ class HomeStado extends StatefulWidget {
 class _HomeStadoState extends State<HomeStado> {
 
   int barraNavegacaoIndex = 0;
-  final telaImagem = TelaImagem();
-  final telaListagemImagens = ListagemImagens();
-  final telaGridImagens = GridImagens();
+  var telaImagem;
+  var telaListagemImagens;
+  var telaGridImagens;
 
   List<Widget>? telas;
 
   @override
   Widget build(BuildContext context) {
+
+    telaImagem = TelaImagem(bd: widget.bd,);
+    telaListagemImagens = ListagemImagens(bd: widget.bd,);
+    telaGridImagens = GridImagens();
 
     telas = [telaImagem, telaListagemImagens, telaGridImagens];
 

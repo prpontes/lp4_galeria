@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:teste/provider/provider_imagem.dart';
 
 import '../data/banco.dart';
 import '../model/imagem.dart';
@@ -99,7 +101,6 @@ class _DetalheImagemState extends State<DetalheImagem> {
                       _controllerUrl.clear();
                       _controllerTitulo.clear();
                       Navigator.pop(context);
-
                       setState(() {
                         widget.img;
                       });

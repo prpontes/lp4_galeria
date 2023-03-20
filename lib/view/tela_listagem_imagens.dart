@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../data/banco.dart';
 import '../model/imagem.dart';
 import '../provider/provider_imagem.dart';
 import 'detalhe_imagem.dart';
 
 class ListagemImagens extends StatefulWidget {
-  const ListagemImagens({Key? key}) : super(key: key);
+  Banco? bd;
+  ListagemImagens({Key? key, this.bd}) : super(key: key);
 
   @override
   State<ListagemImagens> createState() => _ListagemImagensState();
@@ -34,11 +36,11 @@ class _ListagemImagensState extends State<ListagemImagens> {
               final id = await Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DetalheImagem(img: listaimg[index])
+                      builder: (context) => DetalheImagem(img: listaimg[index], bd: widget.bd,)
                   )
               );
               if(id != null){
-                //bd!.deletaImagem(id);
+                widget.bd!.deletaImagem(id);
               }
             },
           );
