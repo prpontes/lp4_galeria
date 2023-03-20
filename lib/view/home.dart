@@ -41,7 +41,7 @@ class _HomeStadoState extends State<HomeStado> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            label: "lista",
+            label: "listagem",
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(

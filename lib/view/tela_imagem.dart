@@ -44,9 +44,14 @@ class _TelaImagemState extends State<TelaImagem> {
   Future<void> carregarImagens() async{
     imagem = await bd!.obterImagens();
 
+    carregarProvider();
     setState((){
       imagem;
     });
+  }
+
+  void carregarProvider(){
+    Provider.of<ImagemModel>(context, listen: false).listaImagem = imagem;
   }
 
   @override
