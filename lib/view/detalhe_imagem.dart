@@ -21,16 +21,7 @@ class _DetalheImagemState extends State<DetalheImagem> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void carregarImagem() async{
-
-    widget.img = await widget.bd!.obterImagem(widget.img!.id);
-
-    setState(() {
-      widget.img;
-    });
-  }
-
-  void formulario(){
+  void formEditarImagem(context){
     _controllerTitulo.text = widget.img!.titulo;
     _controllerUrl.text = widget.img!.url;
     _controllerDescricao.text = widget.img!.descricao;
@@ -114,13 +105,13 @@ class _DetalheImagemState extends State<DetalheImagem> {
                       });
                     }
                   },
-                  child: Text("Editar")
+                  child: const Text("Editar")
               ),
               ElevatedButton(
                   onPressed: (){
                     Navigator.pop(context);
                   },
-                  child: Text("Cancelar")
+                  child: const Text("Cancelar")
               )
             ],
           );
@@ -133,66 +124,64 @@ class _DetalheImagemState extends State<DetalheImagem> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detalhe imagem"),
+        title: const Text("Detalhe imagem"),
         actions: [
           IconButton(
               onPressed: (){
-                formulario();
+                formEditarImagem(context);
               },
-              icon: Icon(Icons.edit)
+              icon: const Icon(Icons.edit)
           ),
           IconButton(
               onPressed: (){
                 Navigator.pop(context, widget.img!.id);
               },
-              icon: Icon(Icons.delete)
+              icon: const Icon(Icons.delete)
           ),
         ],
       ),
-      body: Container(
-        child: ListView(
-          children: [
-            ListTile(
-              title: const Text("Título",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              subtitle: Text(widget.img!.titulo,
-                style: const TextStyle(
-                    fontSize: 20
-                ),
+      body: ListView(
+        children: [
+          ListTile(
+            title: const Text("Título",
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold
               ),
             ),
-            ListTile(
-              title: const Text("Url",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              subtitle: Text(widget.img!.url,
-                style: const TextStyle(
-                    fontSize: 20
-                ),
+            subtitle: Text(widget.img!.titulo,
+              style: const TextStyle(
+                  fontSize: 20
               ),
             ),
-            ListTile(
-              title: const Text("Descrição",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold
-                ),
+          ),
+          ListTile(
+            title: const Text("Url",
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold
               ),
-              subtitle: Text(widget.img!.descricao,
-                style: const TextStyle(
-                    fontSize: 20
-                ),
+            ),
+            subtitle: Text(widget.img!.url,
+              style: const TextStyle(
+                  fontSize: 20
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          ListTile(
+            title: const Text("Descrição",
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+            subtitle: Text(widget.img!.descricao,
+              style: const TextStyle(
+                  fontSize: 20
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
