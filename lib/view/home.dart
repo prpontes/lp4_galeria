@@ -63,6 +63,7 @@ class _HomeStadoState extends State<HomeStado> {
               color: Colors.black,
             ),
             const ListTile(
+              leading: Icon(Icons.logout),
               title: Text("Sair"),
             ),
           ],
