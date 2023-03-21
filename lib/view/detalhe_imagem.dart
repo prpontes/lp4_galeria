@@ -122,7 +122,6 @@ class _DetalheImagemState extends State<DetalheImagem> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Detalhe imagem"),

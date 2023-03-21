@@ -35,6 +35,39 @@ class _HomeStadoState extends State<HomeStado> {
         title: const Text("Galeria de imagens"),
         backgroundColor: Colors.green,
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+                child: Column(
+                  children: const [
+                    CircleAvatar(
+                      child: Icon(Icons.account_circle),
+                    ),
+                    ListTile(
+                      title: Text("Nome do usuario"),
+                      subtitle: Text("usuario@usuario.com.br"),
+                    )
+                  ],
+                )
+            ),
+            const ListTile(
+              leading: Icon(Icons.image),
+              title: Text("Galeria"),
+            ),
+            const ListTile(
+              leading: Icon(Icons.account_box),
+              title: Text("Usuário"),
+            ),
+            const Divider(
+              color: Colors.black,
+            ),
+            const ListTile(
+              title: Text("Sair"),
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: telas!.elementAt(barraNavegacaoIndex),
       ),
