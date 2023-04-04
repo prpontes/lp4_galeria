@@ -30,7 +30,7 @@ class _DetalheImagemState extends State<DetalheImagem> {
 
     showDialog(
         context: context,
-        builder: (contexto){
+        builder: (context){
           return AlertDialog(
             title: Text("Editar imagem"),
             content:  Form(
